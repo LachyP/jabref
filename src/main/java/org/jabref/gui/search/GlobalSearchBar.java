@@ -467,6 +467,10 @@ public class GlobalSearchBar extends HBox {
                         }
                         break;
                     default:
+                        if(this.suggestionList.getItems().size() > 0){
+                            System.out.println(this.suggestionList.getItems().get(0).getClass());
+                        }
+                        //System.out.println(this.suggestionList.getItems().getClass());
                         break;
                 }
             });
