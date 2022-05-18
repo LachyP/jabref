@@ -399,8 +399,6 @@ public class GlobalSearchBar extends HBox {
 
             //this.suggestionList = new ListView<>(control.getSuggestions());
             this.suggestionList = new ListView<>(list);
-
-
             //Add heading
 
 
@@ -426,7 +424,7 @@ public class GlobalSearchBar extends HBox {
             //  }
             // });
 
-            this.suggestionList.getStyleClass().add("auto-complete-popup");
+            this.suggestionList.getStyleClass().add("auto-complete-popp");
             //this.suggestionList.setStyle("-fx-font-weight: bold");
             this.suggestionList.getStylesheets().add(Objects.requireNonNull(AutoCompletionBinding.class.getResource("autocompletion.css")).toExternalForm());
             this.suggestionList.prefHeightProperty().bind(Bindings.min(control.visibleRowCountProperty(), Bindings.size(this.suggestionList.getItems())).multiply(24).add(18));
