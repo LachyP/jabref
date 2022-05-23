@@ -383,7 +383,6 @@ public class GlobalSearchBar extends HBox {
         DefaultTaskExecutor.runInJavaFXThread(() -> searchField.setText(searchTerm));
     }
     private class SearchPopupSkin<T> implements Skin<AutoCompletePopup<T>> {
-
         private final AutoCompletePopup<T> control;
         private final ListView<T> suggestionList;
         private final BorderPane container;
@@ -394,38 +393,10 @@ public class GlobalSearchBar extends HBox {
         public SearchPopupSkin(AutoCompletePopup<T> control) {
             this.control = control;
             conv = control.getConverter();
-            //ObservableList<T> list = FXCollections.observableArrayList(control.getSuggestions());
             this.list = control.getSuggestions();
 
-            //this.suggestionList = new ListView<>(control.getSuggestions());
             this.suggestionList = new ListView<>(list);
-            //Add heading
-
-
-            //suggestionList.setCellFactory(cell -> new ListCell<T>(){
-            //    @Override
-            //    protected void updateItem(T item, boolean empty){
-            //        super.updateItem(item,empty);
-            //       if(test_item != null) {
-            //           if (conv.toString(test_item) != null) {
-            //setText(conv.toString(test_item));
-            //               setText("goodbye world");
-            //           } else {
-            //               setText("Hello world");
-            //           }
-            //       }
-            //       else{
-            //           setText("something");
-            //      }
-
-            //setText(conv.toString(item));
-            //TextFieldListCell.forListView(control.getConverter());
-            //setText(item.toString());
-            //  }
-            // });
-
             this.suggestionList.getStyleClass().add("auto-complete-pop");
-            //this.suggestionList.setStyle("-fx-font-weight: bold");
             this.suggestionList.getStylesheets().add(Objects.requireNonNull(AutoCompletionBinding.class.getResource("autocompletion.css")).toExternalForm());
             this.suggestionList.prefHeightProperty().bind(Bindings.min(control.visibleRowCountProperty(), Bindings.size(this.suggestionList.getItems())).multiply(24).add(18));
             this.suggestionList.setCellFactory(TextFieldListCell.forListView(control.getConverter()));
@@ -446,18 +417,9 @@ public class GlobalSearchBar extends HBox {
                 }
             });
             this.suggestionList.setOnKeyPressed((ke) -> {
-                //this.suggestionList.getItems().add(conv.fromString(headings[0]));
                 switch (ke.getCode()) {
                     case TAB:
-                        //if(this.suggestionList.getItems().size() > 0) {
-                            //String test = "hello world";
-                            //T tump = conv.fromString(test);
 
-                            //this.suggestionList.getItems().add(list.get(0));
-
-                            //this.suggestionList.getItems().add(tump);
-                            //this.suggestionList.setStyle("-fx-font-weight: bold");
-                        //}
                     case ENTER:
                         this.onSuggestionChosen(this.suggestionList.getSelectionModel().getSelectedItem());
                         break;
@@ -480,6 +442,7 @@ public class GlobalSearchBar extends HBox {
                     String searchTerm = this.control.getConverter().toString(suggestion);
                     searchField.setText("author="+searchTerm);
                 }
+
                 //Event.fireEvent(this.control, new AutoCompletePopup.SuggestionEvent<>(suggestion));
             }
         }
