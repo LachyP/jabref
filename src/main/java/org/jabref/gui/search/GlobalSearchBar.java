@@ -382,7 +382,7 @@ public class GlobalSearchBar extends HBox {
 
         DefaultTaskExecutor.runInJavaFXThread(() -> searchField.setText(searchTerm));
     }
-    private static class SearchPopupSkin<T> implements Skin<AutoCompletePopup<T>> {
+    private class SearchPopupSkin<T> implements Skin<AutoCompletePopup<T>> {
 
         private final AutoCompletePopup<T> control;
         private final ListView<T> suggestionList;
@@ -424,7 +424,7 @@ public class GlobalSearchBar extends HBox {
             //  }
             // });
 
-            this.suggestionList.getStyleClass().add("auto-complete-popp");
+            this.suggestionList.getStyleClass().add("auto-complete-pop");
             //this.suggestionList.setStyle("-fx-font-weight: bold");
             this.suggestionList.getStylesheets().add(Objects.requireNonNull(AutoCompletionBinding.class.getResource("autocompletion.css")).toExternalForm());
             this.suggestionList.prefHeightProperty().bind(Bindings.min(control.visibleRowCountProperty(), Bindings.size(this.suggestionList.getItems())).multiply(24).add(18));
@@ -449,13 +449,15 @@ public class GlobalSearchBar extends HBox {
                 //this.suggestionList.getItems().add(conv.fromString(headings[0]));
                 switch (ke.getCode()) {
                     case TAB:
-                        if(this.suggestionList.getItems().size() > 0) {
-                            String test = "hello world";
-                            T tump = conv.fromString(test);
+                        //if(this.suggestionList.getItems().size() > 0) {
+                            //String test = "hello world";
+                            //T tump = conv.fromString(test);
+
                             //this.suggestionList.getItems().add(list.get(0));
-                            this.suggestionList.getItems().add(tump);
-                            this.suggestionList.setStyle("-fx-font-weight: bold");
-                        }
+
+                            //this.suggestionList.getItems().add(tump);
+                            //this.suggestionList.setStyle("-fx-font-weight: bold");
+                        //}
                     case ENTER:
                         this.onSuggestionChosen(this.suggestionList.getSelectionModel().getSelectedItem());
                         break;
@@ -465,10 +467,6 @@ public class GlobalSearchBar extends HBox {
                         }
                         break;
                     default:
-                        if(this.suggestionList.getItems().size() > 0){
-                            System.out.println(this.suggestionList.getItems().get(0).getClass());
-                        }
-                        //System.out.println(this.suggestionList.getItems().getClass());
                         break;
                 }
             });
@@ -476,7 +474,13 @@ public class GlobalSearchBar extends HBox {
 
         private void onSuggestionChosen(T suggestion) {
             if (suggestion != null) {
-                Event.fireEvent(this.control, new AutoCompletePopup.SuggestionEvent<>(suggestion));
+                //Check what class the suggestion is, then add to the search bar
+                if(suggestion.getClass() == Author.class){
+                    //Update the search bar to contain the text author=suggestion
+                    String searchTerm = this.control.getConverter().toString(suggestion);
+                    searchField.setText("author="+searchTerm);
+                }
+                //Event.fireEvent(this.control, new AutoCompletePopup.SuggestionEvent<>(suggestion));
             }
         }
 
